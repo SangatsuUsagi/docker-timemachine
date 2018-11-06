@@ -76,7 +76,9 @@ RUN touch /var/log/afpd.log
 
 ADD entrypoint.sh /entrypoint.sh
 ADD start_netatalk.sh /start_netatalk.sh
-ADD bin/add-account /usr/bin/add-account
+ADD bin/add-home-account /usr/bin/add-home-account
+ADD bin/add-afp-account /usr/bin/add-afp-account
+ADD bin/add-tm-account /usr/bin/add-tm-account
 ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 ADD afp.conf /etc/afp.conf
 
