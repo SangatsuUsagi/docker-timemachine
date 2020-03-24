@@ -1,5 +1,5 @@
 FROM alpine:latest
-MAINTAINER Óscar de Arriba <odarriba@gmail.com>
+LABEL maintainer "Tatsuya Kobayashi <SangatsuUsagi@SangatsuUsagi.com>"
 
 ##################
 ##   BUILDING   ##
@@ -74,13 +74,13 @@ RUN mkdir -p /timemachine && \
 # Create the log file
 RUN touch /var/log/afpd.log
 
-ADD entrypoint.sh /entrypoint.sh
-ADD start_netatalk.sh /start_netatalk.sh
-ADD bin/add-home-account /usr/bin/add-home-account
-ADD bin/add-afp-account /usr/bin/add-afp-account
-ADD bin/add-tm-account /usr/bin/add-tm-account
-ADD supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD afp.conf /etc/afp.conf
+COPY entrypoint.sh /entrypoint.sh
+COPY start_netatalk.sh /start_netatalk.sh
+COPY bin/add-home-account /usr/bin/add-home-account
+COPY bin/add-afp-account /usr/bin/add-afp-account
+COPY bin/add-tm-account /usr/bin/add-tm-account
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY afp.conf /etc/afp.conf
 
 EXPOSE 548 636
 

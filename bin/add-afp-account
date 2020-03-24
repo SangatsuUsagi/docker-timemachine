@@ -10,36 +10,31 @@ done
 shift $(($OPTIND - 1))
 
 if [[ $# -lt 4 ]]; then
-  echo "Usage: add-aftp-account [ -i uid -g gid ] USERNAME PASSWORD VOL_NAME VOL_ROOT"
+  echo "Usage:   add-aftp-account [ -i uid -g gid ] USERNAME PASSWORD VOL_NAME VOL_ROOT"
+  echo "Example: add-aftp-account -i 1000 -g 1000 username password /afp_data"
   exit 1
 fi
 
 if [[ ${_uid} ]] && [[ ${_gid} ]]; then
-  addgroup -g ${_gid} ${1}
-  adduser -u ${_uid} -S -H ${1}
+  addgroup -g "${_gid}" "${1}"
+  adduser -u "${_uid}" -S -H "${1}"
 else
-  adduser -S -H -G root ${1}
+  adduser -S -H -G root "${1}"
 fi
 
-echo ${1}:${2} | chpasswd
-
-# Create mountpoint
-if [[ ! -e /timemachine/${4} ]]; then
-  echo "Create mountpoint"
-  mkdir -p /timemachine/${4}
-fi
+echo "${1}:${2}" | chpasswd
 
 # Set proper uid:gid to mountpoint
 if [[ ${_uid} ]] && [[ ${_gid} ]]; then
-  chown -R ${_uid}:${_gid} /timemachine/${4}
+  chown "${_uid}:${_gid} ${4}"
 else
-  chown -R ${1}:root /timemachine/${4}
+  chown "${1}:root ${4}"
 fi
 
 # Add config to timemachine
   echo "
 [${3}]
-    path = /timemachine/${4}
+    path = ${4}
     valid users = ${1}
     file perm = 0660
     directory perm = 0770" >> /etc/afp.conf

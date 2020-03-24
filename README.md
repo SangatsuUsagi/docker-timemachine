@@ -20,14 +20,21 @@ If you want to use this on an ARM-Device (like the Raspberry Pi), you have two o
 
 To download the docker container and execute it, simply run:
 
+- Get the precompiled image (latest compilation on 29-03-2018):
 ```
 $ docker run -h timemachine --name timemachine --restart=unless-stopped -d -v /external_volume:/timemachine -it -p 548:548 -p 636:636 --ulimit nofile=65536:65536 odarriba/timemachine
 ```
 
-Replace `external_volume` with a local path where you want to store your data.
+- Build the image directly on your device:
+```
+$ docker build -t timemachine:latest .
+$ docker run -h timemachine --name timemachine --restart=unless-stopped -d -v /ext_volume_tm:/timemachine [ -v /ext_volume_afp:/afp ] -it -p 548:548 -p 636:636 timemachine
+```
+
+Replace `ext_volume_tm` with a local path where you want to store your data for time machine volume.
+(Optional) Replace `ext_volume_afp` with a local path where you want to store your data for additional afp volume.
 
 As the image has been started using the `--restart=always` flag, it will start when the computers boots up.
-
 
 
 ### Step 2 - Add a User
@@ -35,18 +42,17 @@ As the image has been started using the `--restart=always` flag, it will start w
 To add a user, run:
 
 ```
-$ docker exec timemachine add-account USERNAME PASSWORD VOL_NAME VOL_ROOT [VOL_SIZE_MB]
+$ docker exec timemachine add-account USERNAME PASSWORD VOL_NAME [VOL_SIZE_MB]
 ```
 
 Or, if you want to add a user with a specific UID/GID, use the following format
 
 ```
-$ docker exec timemachine add-account -i 1000 -g 1000 USERNAME PASSWORD VOL_NAME VOL_ROOT [VOL_SIZE_MB]
+$ docker exec timemachine add-account -i 1000 -g 1000 USERNAME PASSWORD VOL_NAME [VOL_SIZE_MB]
 ```
 
 But take care that:
 * `VOL_NAME` will be the name of the volume shown on your OSX as the network drive
-* `VOL_ROOT` should be an absolute path, preferably a sub-path of `/timemachine` (e.g., `/timemachine/backup`), so it will be stored in the according sub-path of your external volume.
 * `VOL_SIZE_MB` is an optional parameter. It indicates the max volume size for that user.
 
 Now you have a docker instance running `netatalk`.

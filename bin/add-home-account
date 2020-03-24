@@ -6,7 +6,7 @@
     basedir regex = /home
     follow symlinks = true
     spotlight = true
-    home name = "$u's home(afp)" >> /etc/afp.conf
+    home name = $u's home(afp)" >> /etc/afp.conf
 
 pkill -HUP afpd
 exit 0
