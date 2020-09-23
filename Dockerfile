@@ -6,7 +6,7 @@ LABEL maintainer "Tatsuya Kobayashi <SangatsuUsagi@SangatsuUsagi.com>"
 ##################
 
 # Versions to use
-ENV netatalk_version 3.1.11
+ENV netatalk_version 3.1.12
 
 WORKDIR /
 
@@ -18,7 +18,7 @@ RUN apk update && \
       curl \
       libldap \
       libgcrypt \
-      python \
+      python3 \
       dbus \
       dbus-glib \
       py-dbus \
